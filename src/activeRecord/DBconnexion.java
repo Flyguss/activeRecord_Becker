@@ -9,14 +9,14 @@ public class DBconnexion {
 
     private static DBconnexion connexion ;
     private static Connection connection;
-    String userName = "root";
-    String password = "";
-    String serverName = "localhost";
+    private static String userName = "root";
+    private static String  password = "";
+    private static String  serverName = "localhost";
     //Attention, sous MAMP, le port est 8889
-    String portNumber = "3306";
+    private static String  portNumber = "3306";
 
     // iL faut une base nommee testPersonne !
-    String dbName = "testpersonne";
+    private static String dbName = "testpersonne";
 
     private DBconnexion() throws SQLException {
         Properties connectionProps = new Properties();
@@ -34,10 +34,9 @@ public class DBconnexion {
         return connection;
     }
 
-    public void setNomDB(String nom){
-        if (!this.dbName.equals(nom)){
-            this.dbName = nom ;
-            connection = null;
+    public static synchronized void setNomDB(String nom){
+        if (!dbName.equals(nom) && nom != null){
+            dbName = nom ;
             connexion = null;
         }
     }
