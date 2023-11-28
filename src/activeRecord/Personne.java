@@ -10,7 +10,7 @@ public class Personne {
     private int id;
     private String nom , prenom ;
 
-    private Personne(String n , String p){
+    public Personne(String n , String p){
         nom = n ;
         prenom = p ;
         id = -1 ;
@@ -96,6 +96,34 @@ public class Personne {
         Connection connect = DBconnexion.getConnexion();
         String SQLPrep = "DROP TABLE Personne";
         PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+        prep1.execute();
+    }
+
+    public void save() throws SQLException {
+        DBconnexion.setNomDB("testpersonne");
+        Connection connect = DBconnexion.getConnexion();
+        if (this.id == -1 ){
+            String SQLPrep = "INSERT INTO Personne (nom, prenom) VALUES (?,?);";
+            PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+            prep1.setString(1, this.nom);
+            prep1.setString(2, this.prenom);
+            prep1.execute();
+        }else {
+            String SQLPrep = "update Personne set nom=?, prenom=? where id=?;";
+            PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+            prep1.setString(1, this.nom);
+            prep1.setString(2, this.prenom);
+            prep1.setInt(3 , this.id);
+            prep1.execute();
+        }
+    }
+
+    public void delete() throws SQLException {
+        DBconnexion.setNomDB("testpersonne");
+        Connection connect = DBconnexion.getConnexion();
+        String SQLPrep = "DELETE FROM Personne WHERE id=?";
+        PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+        prep1.setInt(1, this.id);
         prep1.execute();
     }
 }
