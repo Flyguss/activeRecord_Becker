@@ -67,14 +67,13 @@ public class Personne {
         prep1.setString(1, name);
         prep1.execute();
         ResultSet rs = prep1.getResultSet();
-        // s'il y a un resultat
-        while (rs.next()) {
-            String nom = rs.getString("nom");
-            String prenom = rs.getString("prenom");
-            int id = rs.getInt("id");
-            Personne p = new Personne(nom , prenom);
-            list.add(p);
-        }
+            while (rs.next()) {
+                String nom = rs.getString("nom");
+                String prenom = rs.getString("prenom");
+                int id = rs.getInt("id");
+                Personne p = new Personne(nom , prenom);
+                list.add(p);
+            }
         return list;
     }
 
@@ -125,5 +124,9 @@ public class Personne {
         PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
         prep1.setInt(1, this.id);
         prep1.execute();
+    }
+
+    public String getNom(){
+        return this.nom;
     }
 }
